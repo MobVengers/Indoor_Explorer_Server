@@ -1,14 +1,15 @@
-from models.calibrationPoint_model import CalibrationPoint
+from ..models.calibrationPoint import CalibrationPoint
 import uuid
 
-def get_calibration_points_by_id(project_id):
+async def get_calibration_points_by_id(project_id):
     try:
-        calibration_points = CalibrationPoint.objects(projectId=project_id)
+        # fix here
+        calibration_points = # await calibrationPoint.find({projectId:projectID}).exec();
         return calibration_points
     except Exception as err:
         print(err)
 
-def create_calibration_point(req_body):
+async def create_calibration_point(req_body):
     received_signals = req_body.received_signals
 
     try:
@@ -26,7 +27,8 @@ def create_calibration_point(req_body):
         for signal in received_signals:
             cp_to_add.radioMap[signal.bssid] = signal.rss
 
-        cp_to_add.save()
+        # sus
+        # await cp_to_add.save()
         print("Saved Calibration Point")
     except Exception as err:
         print(err)
@@ -48,7 +50,8 @@ def add_maps():
         c3.radioMap['12:344:4526'] = 102
         c3.radioMap['12:344:4546'] = 15
 
-        c3.save()
+        # sus
+        # await c3.save()
         print("SUCCESS")
     except Exception as err:
         print("DD", err)
