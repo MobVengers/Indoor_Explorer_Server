@@ -16,3 +16,6 @@ async def myloc(req: RequestBody):
     return calculate_position(req)
 
     # return {"location": f"x:{10}, y={20}"}
+
+# NOTE: Refer calibrate.py and createCalibrationFingerprint.py for 
+# a better implementation of the API endpoints

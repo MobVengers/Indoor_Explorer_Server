@@ -5,6 +5,38 @@ from constants import RSS_NOT_RECEIVED
 import math
 from fastapi import HTTPException, status
 
+async def calculate_position(req):
+    return {"req":req}
+    try:
+        project_id = req.projectId
+        received_signals = req.received_signals
+
+        access_point_list = await get_access_points_by_id(project_id)
+        initially_received_rss_values = signals_to_map(received_signals)
+
+        received_database_rss_values = {}
+        not_received_count = 0
+
+        for access_point in access_point_list:
+            if access_point.bssid not in initially_received_rss_values:
+                not_received_count += 1
+                received_database_rss_values[access_point.bssid] = RSS_NOT_RECEIVED
+            else:
+                received_database_rss_values[access_point.bssid] = initially_received_rss_values[access_point.bssid]
+
+        if not_received_count == len(access_point_list):
+            print('No access point in database matches the received signals')
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"No access point in database matches the received signals")        
+        else:
+            finger_print = await wknn_algorithm(received_database_rss_values, project_id)
+            print(finger_print)
+            return {'message': finger_print}
+
+    except Exception as err:
+        print(err)
+        return {'message': str(err)}
+    
 def calculate_weighted_average_k_distance_locations(location_distances):
     try:
         k = 3
@@ -88,38 +120,6 @@ def signals_to_map(received_signals):
     for signal in received_signals:
         rss_value_map[signal.bssid] = signal.rss
     return rss_value_map
-
-async def calculate_position(req):
-    return {"req":req}
-    try:
-        project_id = req.projectId
-        received_signals = req.received_signals
-
-        access_point_list = await get_access_points_by_id(project_id)
-        initially_received_rss_values = signals_to_map(received_signals)
-
-        received_database_rss_values = {}
-        not_received_count = 0
-
-        for access_point in access_point_list:
-            if access_point.bssid not in initially_received_rss_values:
-                not_received_count += 1
-                received_database_rss_values[access_point.bssid] = RSS_NOT_RECEIVED
-            else:
-                received_database_rss_values[access_point.bssid] = initially_received_rss_values[access_point.bssid]
-
-        if not_received_count == len(access_point_list):
-            print('No access point in database matches the received signals')
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"No access point in database matches the received signals")        
-        else:
-            finger_print = await wknn_algorithm(received_database_rss_values, project_id)
-            print(finger_print)
-            return {'message': finger_print}
-
-    except Exception as err:
-        print(err)
-        return {'message': str(err)}
 
 def calculate_euclidean_distance(radio_map, received_rss_values):
     final_distance = 0
