@@ -1,12 +1,9 @@
-from typing import Union
-from fastapi import FastAPI
+from fastapi import APIRouter
 from pydantic import BaseModel
 
+router = APIRouter()
 
-app = FastAPI()
-
-
-@app.get("/")
+@router.get("/")
 def read_root():
     return {"status": "active"}
 

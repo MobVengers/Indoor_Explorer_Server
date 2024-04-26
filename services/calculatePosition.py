@@ -1,12 +1,14 @@
-from controllers.accessPoint_controller import get_access_points_by_id
-from controllers.calibrationPoint_controllers import get_calibration_points_by_id
+from utils import calibrationPoints
+from utils.accessPoint import get_access_points_by_id
 from constants import RSS_NOT_RECEIVED
 import math
 
-def calculate_position(req, res):
+from fastapi import HTTPException, status
+
+def calculate_position(req):
     try:
-        project_id = req.body.projectId
-        received_signals = req.body.received_signals
+        project_id = req.projectId
+        received_signals = req.received_signals
 
         access_point_list = get_access_points_by_id(project_id)
         initially_received_rss_values = signals_to_map(received_signals)
@@ -23,8 +25,8 @@ def calculate_position(req, res):
 
         if not_received_count == len(access_point_list):
             print('No access point in database matches the received signals')
-            res.status_code = 400
-            res.json({'message': 'No access point in database matches the received signals'})
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"No access point in database matches the received signals")        
         else:
             finger_print = wknn_algorithm(received_database_rss_values, project_id)
             print(finger_print)

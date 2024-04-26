@@ -1,23 +1,23 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from controllers.calculateLocation import router as calculateLocation_router
+from controllers.healthCheck import router as healthCheck_router
+
 
 app = FastAPI()
 
 app.include_router(calculateLocation_router, prefix="/mylocation", tags=["my-location"])
+app.include_router(healthCheck_router, prefix="/health", tags=["health-check"])
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
 
+
+
+# sample codes 
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int):
     return {"item_id": item_id}
-
-
-
 
 
 class RequestBody(BaseModel):
