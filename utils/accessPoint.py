@@ -1,5 +1,4 @@
 from models.accessPoint import AccessPoint
-import asyncio
 
 async def get_access_points_by_id(project_id):
     try:

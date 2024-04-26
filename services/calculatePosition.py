@@ -1,7 +1,7 @@
 from utils import calibrationPoints
 from utils.accessPoint import *
 from utils.calibrationPoints import *
-from ..constants import RSS_NOT_RECEIVED
+from constants import RSS_NOT_RECEIVED
 import math
 from fastapi import HTTPException, status
 
@@ -90,6 +90,7 @@ def signals_to_map(received_signals):
     return rss_value_map
 
 async def calculate_position(req):
+    return {"req":req}
     try:
         project_id = req.projectId
         received_signals = req.received_signals

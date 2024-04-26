@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from ..services.calculatePosition import calculate_position
+from services.calculatePosition import *
 
 router = APIRouter()
 
@@ -13,6 +13,6 @@ async def myloc(req: RequestBody):
     
     print(req.name)
 
-    # return calculate_position(req)
+    return calculate_position(req)
 
-    return {"location": f"x:{10}, y={20}"}
+    # return {"location": f"x:{10}, y={20}"}

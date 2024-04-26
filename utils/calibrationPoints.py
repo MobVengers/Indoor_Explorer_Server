@@ -1,10 +1,10 @@
-from ..models.calibrationPoint import CalibrationPoint
+from models.calibrationPoint import CalibrationPoint
 import uuid
 
 async def get_calibration_points_by_id(project_id):
     try:
         # fix here
-        calibration_points = # await calibrationPoint.find({projectId:projectID}).exec();
+        calibration_points = []# await calibrationPoint.find({projectId:projectID}).exec();
         return calibration_points
     except Exception as err:
         print(err)
