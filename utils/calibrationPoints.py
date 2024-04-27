@@ -3,7 +3,7 @@ import uuid
 
 async def get_calibration_points_by_id(project_id):
     try:
-        calibration_points = CalibrationPoint.objects(projectid=project_id)
+        calibration_points = CalibrationPoint.objects()
         return calibration_points
     except Exception as err:
         print(err)
@@ -12,7 +12,7 @@ async def create_calibration_point(req):
     received_signals = req.received_signals
     try:
         cp_to_add = CalibrationPoint(
-            projectId=req.projectId,
+            projectid=req.projectId,
             name=f"calibration_point{uuid.uuid4()}",
             position={
                 'x': req.pos_x,

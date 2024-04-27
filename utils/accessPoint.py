@@ -12,7 +12,6 @@ async def get_access_points_by_id(project_id):
 
 
 async def add_multiple_access_points(access_point_array, project_id):
-    print(access_point_array)
     access_points = [
         AccessPoint(projectid=project_id, ssid=signal.ssid, bssid=signal.bssid)
         for signal in access_point_array

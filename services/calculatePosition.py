@@ -4,38 +4,38 @@ from utils.calibrationPoints import *
 from constants import RSS_NOT_RECEIVED
 import math
 from fastapi import HTTPException, status
+from fastapi.responses import JSONResponse
+
 
 async def calculate_position(req):
-    return {"req":req}
     try:
         project_id = req.projectId
         received_signals = req.received_signals
-
         access_point_list = await get_access_points_by_id(project_id)
-        initially_received_rss_values = signals_to_map(received_signals)
+        initially_received_rssi_values = signals_to_map(received_signals)
 
-        received_database_rss_values = {}
+        received_database_rssi_values = {}
         not_received_count = 0
 
         for access_point in access_point_list:
-            if access_point.bssid not in initially_received_rss_values:
+            if access_point.bssid not in initially_received_rssi_values:
                 not_received_count += 1
-                received_database_rss_values[access_point.bssid] = RSS_NOT_RECEIVED
+                received_database_rssi_values[access_point.bssid] = RSS_NOT_RECEIVED
             else:
-                received_database_rss_values[access_point.bssid] = initially_received_rss_values[access_point.bssid]
+                received_database_rssi_values[access_point.bssid] = initially_received_rssi_values[access_point.bssid]
 
         if not_received_count == len(access_point_list):
-            print('No access point in database matches the received signals')
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"No access point in database matches the received signals")        
+            err = "No access point in database matches the received signals"
+            return JSONResponse(content={"message": str(err)}, status_code=500)       
         else:
-            finger_print = await wknn_algorithm(received_database_rss_values, project_id)
+            finger_print = await wknn_algorithm(received_database_rssi_values, project_id)
             print(finger_print)
-            return {'message': finger_print}
+            JSONResponse(content={"message": "done"}, status_code=200)
+            # return {'message': finger_print}
 
     except Exception as err:
-        print(err)
-        return {'message': str(err)}
+        return JSONResponse(content={"message": str(err)}, status_code=500)       
+
     
 def calculate_weighted_average_k_distance_locations(location_distances):
     try:
@@ -88,16 +88,17 @@ def calculate_weighted_average_k_distance_locations(location_distances):
         return "Null"
 
 
-async def wknn_algorithm(received_database_rss_values, project_id):
+async def wknn_algorithm(received_database_rssi_values, project_id):
     calibration_point_list = await get_calibration_points_by_id(project_id)
     location_distance_results = []
 
     try:
         for calibration_point in calibration_point_list:
-            radio_map = calibration_point.radio_map
-            current_distance = calculate_euclidean_distance(radio_map, received_database_rss_values)
+            radio_map = calibration_point.radiomap
+            current_distance = calculate_euclidean_distance(radio_map, received_database_rssi_values)
             if current_distance == float('-inf'):
-                return ValueError('Negative Infinity Distance Error')
+                err = "Negative Infinity Distance Error"
+                return JSONResponse(content={"message": str(err)}, status_code=500)  
 
             location_distance_to_add = {
                 'calibrationPointId': calibration_point.id,
@@ -116,19 +117,21 @@ async def wknn_algorithm(received_database_rss_values, project_id):
         raise err
 
 def signals_to_map(received_signals):
-    rss_value_map = {}
+    rssi_value_map = {}
     for signal in received_signals:
-        rss_value_map[signal.bssid] = signal.rss
-    return rss_value_map
+        rssi_value_map[signal.bssid] = signal.rssi
+    return rssi_value_map
 
-def calculate_euclidean_distance(radio_map, received_rss_values):
+def calculate_euclidean_distance(radio_map, received_rssi_values):
+    print(">>", radio_map, received_rssi_values)
     final_distance = 0
     temp_value_one = 0.0
     temp_value_two = 0.0
     temp_distance = 0.0
 
-    if len(radio_map) != len(received_rss_values):
-        return float('-inf')
+    # if len(radio_map) != len(received_rssi_values):
+    #     print(">>>")
+    #     return float('-inf')
 
     try:
         for bssid, rss in radio_map.items():
@@ -137,10 +140,10 @@ def calculate_euclidean_distance(radio_map, received_rss_values):
             else:
                 temp_value_one = rss
 
-            if received_rss_values.get(bssid) == RSS_NOT_RECEIVED:
+            if received_rssi_values.get(bssid) == RSS_NOT_RECEIVED:
                 temp_value_two = 0.0
             else:
-                temp_value_two = received_rss_values[bssid]
+                temp_value_two = received_rssi_values[bssid]
 
             temp_distance = temp_value_one - temp_value_two
             temp_distance **= 2
