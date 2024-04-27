@@ -1,5 +1,5 @@
-from utils.accessPoint import get_access_points_by_id, add_multiple_access_points
-from utils.calibrationPoints import create_calibration_point
+from utils.accessPoint import *
+from utils.calibrationPoints import *
 from fastapi.responses import JSONResponse
 
 async def create_calibration_fingerprint(req):

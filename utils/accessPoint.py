@@ -1,4 +1,4 @@
-from models.accessPoint import AccessPoint
+from models.accessPoint import *
 
 async def get_access_points_by_id(project_id):
     try:

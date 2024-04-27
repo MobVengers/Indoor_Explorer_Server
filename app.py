@@ -1,12 +1,12 @@
 from fastapi import FastAPI
-import uvicorn
+# import uvicorn
 from controllers.calculateLocation import router as calculateLocation_router
 from controllers.addFingerPrint import router as addFingerPrint_router
 from controllers.healthCheck import router as healthCheck_router
 from controllers.findPath import router as findPath_router
 from db_connect import *
 from dotenv import load_dotenv
-import os
+# import os
 
 load_dotenv()
 

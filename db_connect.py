@@ -1,5 +1,5 @@
 import mongoengine as me
-import certifi
+# import certifi
 import os
 
 # Now you can access environment variables
