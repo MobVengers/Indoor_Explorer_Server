@@ -1,3 +1,6 @@
+from fastapi.responses import JSONResponse
+
+
 def heuristic(node, goal):
     return 0
 
@@ -111,7 +114,7 @@ graph = {
     'X': [['Y', 15], ['C', 8], ['D', 9], ['W', 14]],
     'D': [['X', 9], ['C', 13], ['W', 11], ['E', 13], ['V', 13]],
     'W': [['X', 14], ['D', 11], ['E', 9]],
-    'E': [['W', 9], ['F', 7]],
+    'E': [['W', 9], ['F', 7], ['D', 13]],
     'F': [['E', 7], ['G', 13]],
     'G': [['F', 13], ['f', 15], ['H', 10]],
     'f': [['G', 15]],
@@ -127,22 +130,52 @@ def get_mapped_node(node):
         if key == node:
             return values
 
-# Example usage:
-start_node = 'Conference_Room'
-goal_node = 'Sysco_Lounge'
-mapped_start_nodes = get_mapped_node(start_node)
-mapped_goal_nodes = get_mapped_node(goal_node)
-print("Mapped Start Nodes:", mapped_start_nodes, "Mapped Goal Nodes:", mapped_goal_nodes)
+# # Example usage:
+# start_node = 'Conference_Room'
+# goal_node = 'Sysco_Lounge'
+# mapped_start_nodes = get_mapped_node(start_node)
+# mapped_goal_nodes = get_mapped_node(goal_node)
+# print("Mapped Start Nodes:", mapped_start_nodes, "Mapped Goal Nodes:", mapped_goal_nodes)
 
 
-shortest_path = None
-shortest_distance= float('inf')
-for node in mapped_start_nodes:
-    for goal in mapped_goal_nodes:
-        path, current_distance = a_star(graph, node, goal)
-        print("Distance from", node, "to", mapped_goal_nodes, ":", path)
-        if current_distance < shortest_distance:
-            shortest_path = path
-            shortest_distance = current_distance
+# shortest_path = None
+# shortest_distance= float('inf')
+# for node in mapped_start_nodes:
+#     for goal in mapped_goal_nodes:
+#         path, current_distance = a_star(graph, node, goal)
+#         print("Distance from", node, "to", mapped_goal_nodes, ":", path)
+#         if current_distance < shortest_distance:
+#             shortest_path = path
+#             shortest_distance = current_distance
 
-print("Shortest Path:", shortest_path)
+# print("Shortest Path:", shortest_path)
+
+def find_path(start_node, goal_node):
+    mapped_start_nodes = get_mapped_node(start_node)
+    mapped_goal_nodes = get_mapped_node(goal_node)
+
+    print("Mapped Start Nodes:", mapped_start_nodes, "Mapped Goal Nodes:", mapped_goal_nodes)
+
+    shortest_path = None
+    shortest_distance= float('inf')
+    for node in mapped_start_nodes:
+        for goal in mapped_goal_nodes:
+            path, current_distance = a_star(graph, node, goal)
+            print("Distance from", node, "to", mapped_goal_nodes, ":", path)
+            if current_distance < shortest_distance:
+                shortest_path = path
+                shortest_distance = current_distance
+
+    print("Shortest Path:", shortest_path)
+    return shortest_path
+
+
+async def get_path(req):
+    try:
+        start_node = req.start
+        goal_node = req.goal
+        path = find_path(start_node, goal_node)
+        return JSONResponse(content={"path": path})
+    except Exception as err:
+        return JSONResponse(content={"message": str(err)}, status_code=500)
+    
