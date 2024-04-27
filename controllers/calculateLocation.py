@@ -4,15 +4,13 @@ from services.calculatePosition import *
 
 router = APIRouter()
 
-class RequestBody(BaseModel):
+class CurrentFingerPrint(BaseModel):
     projectId: str
     received_signals: int
 
 @router.get("/")
-async def myloc(req: RequestBody):
-    
-    print(req.name)
-
+async def myloc(req: CurrentFingerPrint):
+    print("## recieved")
     return calculate_position(req)
 
     # return {"location": f"x:{10}, y={20}"}

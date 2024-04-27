@@ -4,7 +4,7 @@ from pydantic import BaseModel
 router = APIRouter()
 
 @router.get("/")
-def read_root():
+async def read_root():
     return {"status": "active"}
 
 

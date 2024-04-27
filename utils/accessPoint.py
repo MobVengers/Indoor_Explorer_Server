@@ -2,7 +2,8 @@ from models.accessPoint import AccessPoint
 
 async def get_access_points_by_id(project_id):
     try:
-        access_points = await AccessPoint.find({"projectId": project_id}).exec()
+        # access_points = await AccessPoint.find({"projectId": project_id}).exec()
+        access_points = AccessPoint.objects()
         return access_points
     except Exception as err:
         print(err)

@@ -10,3 +10,5 @@ class AccessPoint(me.Document):
 
     def __str__(self):
         return f"{self.ssid} ({self.bssid})"
+    
+    
