@@ -1,10 +1,21 @@
 from models.accessPoint import AccessPoint
 
 async def get_access_points_by_id(project_id):
+    print("inside get_access_points_by_id")
     try:
         # access_points = await AccessPoint.find({"projectId": project_id}).exec()
         access_points = AccessPoint.objects()
-        return access_points
+        print(type(access_points))
+        print(list(access_points))
+
+        # Iterate over the QuerySet
+        for access_point in access_points:
+            print(access_point.ssid, access_point.bssid, access_point.created_at)
+
+        # Or, convert the QuerySet to a list
+        access_point_list = list(access_points)
+
+        return 
     except Exception as err:
         print(err)
 

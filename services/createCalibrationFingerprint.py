@@ -4,6 +4,7 @@ from utils.calibrationPoints import create_calibration_point
 from fastapi.responses import JSONResponse
 
 async def create_calibration_fingerprint(req):
+    print(req)
     try:
         project_id = req.projectId
         received_signals = req.received_signals
