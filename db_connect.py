@@ -1,4 +1,5 @@
 import mongoengine as me
+import certifi
 import os
 
 # Now you can access environment variables
@@ -9,9 +10,10 @@ connection_string = f"mongodb+srv://{db_user}:{db_pass}@localization.wyqcqe0.mon
 
 def initialize_db():
     try:
-        me.connect(host=connection_string)
+        me.connect(host=connection_string, tlsCAFile=certifi.where())
         print("## Connected to database")
     except Exception as e:
         print(f"Error connecting to database: {e}")
     
+
 
