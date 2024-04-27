@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 import uvicorn
 from controllers.calculateLocation import router as calculateLocation_router
 from controllers.addFingerPrint import router as addFingerPrint_router
@@ -20,8 +19,8 @@ app.include_router(addFingerPrint_router, prefix="/fingerprint", tags=["finger-p
 app.include_router(healthCheck_router, prefix="/health", tags=["health-check"])
 app.include_router(findPath_router, prefix="/path", tags=["path"])
 
-host = os.getenv("HOST")
+# host = os.getenv("HOST")
+# port = os.getenv("PORT")
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("app:app", host=host, port=port, reload=True)
+# if __name__ == "__main__":
+#     uvicorn.run("app:app", host=host, port=port, reload=True)
