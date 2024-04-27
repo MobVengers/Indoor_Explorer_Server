@@ -1,35 +1,31 @@
-from models.calibrationPoint import CalibrationPoint
+from models.calibrationFingerPrint import CalibrationPoint
 import uuid
 
 async def get_calibration_points_by_id(project_id):
     try:
-        # fix here
-        calibration_points = []# await calibrationPoint.find({projectId:projectID}).exec();
+        calibration_points = CalibrationPoint.objects(projectid=project_id)
         return calibration_points
     except Exception as err:
         print(err)
 
-async def create_calibration_point(req_body):
-    received_signals = req_body.received_signals
-
+async def create_calibration_point(req):
+    received_signals = req.received_signals
     try:
         cp_to_add = CalibrationPoint(
-            projectId=req_body.projectId,
+            projectId=req.projectId,
             name=f"calibration_point{uuid.uuid4()}",
             position={
-                'x': req_body.position.x,
-                'y': req_body.position.y,
-                'floor': req_body.position.floor
+                'x': req.pos_x,
+                'y': req.pos_y,
             },
             radioMap={}
         )
 
         for signal in received_signals:
-            cp_to_add.radioMap[signal.bssid] = signal.rss
+            cp_to_add.radioMap[signal.bssid] = signal.rssi
 
         # sus
-        # await cp_to_add.save()
-        print("Saved Calibration Point")
+        CalibrationPoint.objects.insert(cp_to_add)
     except Exception as err:
         print(err)
 
