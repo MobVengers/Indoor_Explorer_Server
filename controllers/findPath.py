@@ -8,7 +8,7 @@ class Path(BaseModel):
     start: str
     goal: str
 
-@router.post("/")
+@router.post("")
 async def find_path(req: Path):
     print("## find_path -> recieved")
     return await get_path(req)
