@@ -10,4 +10,3 @@ class CalibrationPoint(me.Document):
     name = me.StringField(required=True)
     radiomap = me.MapField(field=me.FloatField())  # Map of float values
     position = me.EmbeddedDocumentField(Position, required=True)
-

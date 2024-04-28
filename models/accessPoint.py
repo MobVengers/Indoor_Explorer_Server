@@ -7,8 +7,3 @@ class AccessPoint(me.Document):
     bssid = me.StringField(required=True)
     created_at = me.DateTimeField(default=datetime.datetime.now)
     updated_at = me.DateTimeField(default=datetime.datetime.now)
-
-    def __str__(self):
-        return f"{self.ssid} ({self.bssid})"
-    
-    
