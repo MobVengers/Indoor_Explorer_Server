@@ -17,7 +17,8 @@ class NewFingerPrint(BaseModel):
     pos_y: float
     received_signals: List[ReceivedSignal]
 
-@router.get("/create")
+@router.post("/create")
 async def create_fingerprint(req: NewFingerPrint):
-    print("## recieved")
+    print("## create_fingerprint -> recieved")
+    print("## req:", req)
     return await create_calibration_fingerprint(req)
