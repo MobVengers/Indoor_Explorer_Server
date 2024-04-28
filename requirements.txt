@@ -2,4 +2,3 @@ fastapi
 uvicorn
 mongoengine
 python-dotenv
-certifi
