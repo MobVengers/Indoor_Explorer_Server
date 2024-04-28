@@ -125,6 +125,42 @@ graph = {
     'V': [['U', 8], ['D', 13], ['C', 13]],
 }
 
+mapped_coordinates = {
+    'A': (184, 617),
+    'B': (269, 601),
+    'C': (269, 478),
+    'D': (269, 379),
+    'E': (269, 277),
+    'F': (269, 226),
+    'G': (269, 115),
+    'H': (243, 69),
+    'I': (228, 69),
+    'J': (167, 69),
+    'K': (131, 69),
+    'L': (124, 124),
+    'M': (124, 212),
+    'N': (124, 261),
+    'O': (124, 307),
+    'P': (124, 371),
+    'Q': (124, 466),
+    'R': (124, 555),
+    'S': (124, 602),
+    'T': (124, 620),
+    'U': (182, 433),
+    'V': (219, 433),
+    'W': (311, 316),
+    'X': (311, 428),
+    'Y': (304, 545),
+    'Z': (314, 556),
+    'a': (315, 620),
+    'b': (317, 669),
+    'c': (270, 687),
+    'd': (136, 652),
+    'e': (110, 674),
+    'f': (277, 32)
+}
+
+
 def get_mapped_node(node):
     for key, values in mapping.items():
         if key == node:
@@ -167,7 +203,18 @@ def find_path(start_node, goal_node):
                 shortest_distance = current_distance
 
     print("Shortest Path:", shortest_path)
-    return shortest_path
+    # get the coordinates of the nodes
+    coordinates = []
+    for node in shortest_path:
+        coordinates.append(mapped_coordinates[node])
+
+    return coordinates
+
+# # Example usage:
+# start_node = 'Conference_Room'
+# goal_node = 'Sysco_Lounge'
+# path = find_path(start_node, goal_node)
+# print("Path:", path)
 
 
 async def get_path(req):
@@ -178,4 +225,7 @@ async def get_path(req):
         return JSONResponse(content={"path": path})
     except Exception as err:
         return JSONResponse(content={"message": str(err)}, status_code=500)
+    
+
+ 
     
