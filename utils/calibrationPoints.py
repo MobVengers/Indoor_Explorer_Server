@@ -1,4 +1,4 @@
-from models.calibrationFingerPrint import *
+from models.calibrationFingerPrint import CalibrationPoint
 import uuid
 
 async def get_calibration_points_by_id(project_id):
