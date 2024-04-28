@@ -14,7 +14,7 @@ class CurrentFingerPrint(BaseModel):
     projectId: str
     received_signals: List[ReceivedSignal]
 
-@router.post("/")
+@router.post("")
 async def myloc(req: CurrentFingerPrint):
     print("## mylocation -> recieved")
     print("## req:", req)
