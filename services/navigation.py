@@ -119,13 +119,13 @@ graph = {
     'W': [['X', 14], ['D', 11], ['E', 9]],
     'E': [['W', 9], ['F', 7], ['D', 13]],
     'F': [['E', 7], ['G', 13]],
-    'G': [['F', 13], ['f', 15], ['H', 10]],
+    'G': [['F', 13], ['f', 15], ['hg', 7]],
     'f': [['G', 15]],
     'hg': [['G', 7], ['H', 3]],
     'H': [['hg', 3], ['I', 3]],
     'I': [['H', 3], ['J', 7]],
     'J': [['I', 7], ['K', 5]],
-    'V': [['U', 8], 'vcd', 6],
+    'V': [['U', 8], ['vcd', 6]],
     'vcd': [['V', 6], ['D', 7], ['C', 6]],
 }
 
@@ -204,6 +204,7 @@ def find_path(start_node, goal_node):
     shortest_distance= float('inf')
     for node in mapped_start_nodes:
         for goal in mapped_goal_nodes:
+            print("Node:", node, "Goal:", goal)
             path, current_distance = a_star(graph, node, goal)
             print("Distance from", node, "to", mapped_goal_nodes, ":", path)
             if current_distance < shortest_distance:
@@ -216,6 +217,7 @@ def find_path(start_node, goal_node):
     for node in shortest_path:
         coordinates.append(mapped_coordinates[node])
 
+    print("Coordinates:", coordinates)
     return coordinates
 
 # # Example usage:
