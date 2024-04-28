@@ -14,7 +14,6 @@ async def create_calibration_fingerprint(req):
     
 
 async def create_non_existing_access_points(access_points, project_id):
-    print("## getting data from db")
     access_points_in_database = await get_access_points_by_id(project_id)
     access_points_in_database_bssids = [ap.bssid for ap in access_points_in_database]
     new_access_points = [ap for ap in access_points if ap.bssid not in access_points_in_database_bssids]

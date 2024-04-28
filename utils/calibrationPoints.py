@@ -18,14 +18,16 @@ async def create_calibration_point(req):
                 'x': req.pos_x,
                 'y': req.pos_y,
             },
-            radioMap={}
+            radiomap={}
         )
 
         for signal in received_signals:
-            cp_to_add.radioMap[signal.bssid] = signal.rssi
+            cp_to_add.radiomap[signal.bssid] = signal.rssi
 
         # sus
         CalibrationPoint.objects.insert(cp_to_add)
+        print("## new calibration point saved")
+
     except Exception as err:
         print(err)
 
