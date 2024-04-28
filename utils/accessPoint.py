@@ -1,7 +1,8 @@
-from models.accessPoint import *
+# from models.accessPoint import *
 
 import mongoengine as me
 import datetime
+
 class AccessPoint(me.Document):
     projectid = me.StringField(required=True)
     ssid = me.StringField(required=True)
