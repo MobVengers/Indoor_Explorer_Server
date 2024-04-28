@@ -29,9 +29,7 @@ async def calculate_position(req):
             return JSONResponse(content={"message": str(err)}, status_code=500)       
         else:
             finger_print = await wknn_algorithm(received_database_rssi_values, project_id)
-            print(finger_print)
-            JSONResponse(content={"message": "done"}, status_code=200)
-            # return {'message': finger_print}
+            return JSONResponse(content={"message": finger_print}, status_code=200)
 
     except Exception as err:
         return JSONResponse(content={"message": str(err)}, status_code=500)       
@@ -123,7 +121,6 @@ def signals_to_map(received_signals):
     return rssi_value_map
 
 def calculate_euclidean_distance(radio_map, received_rssi_values):
-    print(">>", radio_map, received_rssi_values)
     final_distance = 0
     temp_value_one = 0.0
     temp_value_two = 0.0
