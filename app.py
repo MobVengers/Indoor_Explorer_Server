@@ -10,17 +10,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+host = os.getenv("HOST")
+port = os.getenv("PORT")
+db_user = os.getenv("DB_USER")
+db_pass = os.getenv("DB_PASSWORD")
+
 app = FastAPI()
 
-initialize_db()
+initialize_db(db_user, db_pass)
 
 app.include_router(calculateLocation_router, prefix="/mylocation", tags=["my-location"])
 app.include_router(addFingerPrint_router, prefix="/fingerprint", tags=["finger-print"])
 app.include_router(healthCheck_router, prefix="/health", tags=["health-check"])
 app.include_router(findPath_router, prefix="/path", tags=["path"])
 
-# host = os.getenv("HOST")
-# port = os.getenv("PORT")
+
 
 # if __name__ == "__main__":
 #     uvicorn.run("app:app", host=host, port=port, reload=True)
