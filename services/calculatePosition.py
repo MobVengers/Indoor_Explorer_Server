@@ -29,6 +29,7 @@ async def calculate_position(req):
             return JSONResponse(content={"message": str(err)}, status_code=500)       
         else:
             finger_print = await wknn_algorithm(received_database_rssi_values, project_id)
+            print("## finger_print", finger_print)
             return JSONResponse(content={"message": finger_print}, status_code=200)
 
     except Exception as err:
