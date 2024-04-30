@@ -73,7 +73,7 @@ def calculate_weighted_average_k_distance_locations(location_distances):
 
         weighted_sum_x /= sum_weights
         weighted_sum_y /= sum_weights
-        floor = get_floor_by_value(floor_voting)
+        # floor = get_floor_by_value(floor_voting)
 
         position_to_return = {
             'x': weighted_sum_x,
