@@ -35,7 +35,7 @@ async def calculate_position(req):
     
 def calculate_weighted_average_k_distance_locations(location_distances):
     try:
-        k = 3
+        k = 5
         location_weight = 0.0
         sum_weights = 0.0
         weighted_sum_x = 0.0
