@@ -1,9 +1,6 @@
-from utils import calibrationPoints
 from utils.accessPoint import *
 from utils.calibrationPoints import *
 from constants import RSS_NOT_RECEIVED
-import math
-from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 
 
