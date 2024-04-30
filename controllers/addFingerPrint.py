@@ -13,7 +13,6 @@ class ReceivedSignal(BaseModel):
 
 class NewFingerPrint(BaseModel):
     projectId: str
-    adminKey: str
     pos_x: float
     pos_y: float
     received_signals: List[ReceivedSignal]
