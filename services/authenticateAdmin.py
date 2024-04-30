@@ -6,7 +6,7 @@ def authenticate_admin(req):
     admin_key = req.adminKey
     hashed_key_obj_from_db = get_admin_keys()
     if hashlib.sha256(admin_key.encode()).hexdigest() == hashed_key_obj_from_db.hashkey:
-        return JSONResponse(content={"message": "true"}, status_code=500)
+        return JSONResponse(content={"message": "true"}, status_code=200)
 
     else:
         return JSONResponse(content={"message": "false"}, status_code=500)
