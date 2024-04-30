@@ -196,9 +196,9 @@ mapped_coordinates = {
     'Z': (226, 512),
     'a': (230, 574),
     'b': (234, 617),
-    'c': (270, 687),
-    'd': (192, 637),
-    'e': (54, 623),
+    'c': (192, 637),
+    'd': (59, 601),
+    'e': (59, 623),
     'f': (192, 27),
     'ab': (180, 566),
     'upq': (59, 395),
@@ -259,8 +259,8 @@ def find_path(start_node, goal_node):
     return coordinates
 
 # # Example usage:
-# start_node = 'Codegen_Lab'
-# goal_node = 'Insight_Hub'
+# start_node = 'Seminar_Room'
+# goal_node = 'CIT_Studio'
 # path = find_path(start_node, goal_node)
 # print("Path:", path)
 
