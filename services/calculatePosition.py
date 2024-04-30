@@ -73,7 +73,7 @@ def calculate_weighted_average_k_distance_locations(location_distances):
 
         weighted_sum_x /= sum_weights
         weighted_sum_y /= sum_weights
-        # floor = get_floor_by_value(floor_voting)
+        floor = 3
 
         position_to_return = {
             'x': weighted_sum_x,
@@ -152,14 +152,4 @@ def calculate_euclidean_distance(radio_map, received_rssi_values):
 
     return final_distance ** 2
 
-# def get_floor_by_value(floor_voting_map):
-#     floor_with_highest_vote = float('-inf')
-#     for floor, vote_count in floor_voting_map.items():
-#         temp_vote_count = -1
-
-#         if temp_vote_count == -1 or temp_vote_count < vote_count:
-#             temp_vote_count = vote_count
-#             floor_with_highest_vote = floor
-
-#     return floor_with_highest_vote
 
